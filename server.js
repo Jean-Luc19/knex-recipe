@@ -29,28 +29,37 @@ app.get('/recipes', (req, res) => {
 
               if (recObj.id === steps[j].rec_id) {
                 recObj.steps.push(steps[j].description);
-                console.log('hello');
               }
             }
             output.push(recObj);
           }
           res.json(output)
-
-
-        // let recipes = results[0]
-        // let steps = results[1]
-        // for (var i = 0; i < recipes.length; i++) {
-        //    var object = {
-        //      Id
-        //    }
-        // }
-
-
     })
     .catch(err => {
         res.send(err)
     });
 });
+app.post('/recipes', (req, res) => {
+    // dehydrate
+    knex.insert({
+        name: req.body.name,
+        description: req.body.description
+    }).into('recipes').returning('id')
+      .then(results_id => {
+        let id = Number(results_id);
+        let promiseArray = req.body.steps.map(step => 
+               knex.insert({
+                        description: step,
+                        rec_id: id
+                      }).into('steps')
+        )
+        Promise.all(promiseArray)
+        .then(() => {
+          res.status(201).json({ msg: 'ITS DONE : Well Done' })
+        })
+    });
+});
+
 
 
 // knex.delete
