@@ -11,6 +11,47 @@ const knex = require('knex')({
     },
 });
 
+app.get('/recipes', (req, res) => {
+    const recNames = knex.select('id', 'name')
+    .from('recipes')
+    const stepNames =knex.select('rec_id','steps.description')
+    .from('steps')
+    Promise.all([recNames, stepNames])
+
+    .then(results => {
+          let recipes = results[0];
+          let steps = results[1];
+          let output = [];
+          for (let i = 0; i < recipes.length; i++) {
+            let recObj = recipes[i];
+            recObj.steps = [];
+            for (let j = 0; j < steps.length; j++) {
+
+              if (recObj.id === steps[j].rec_id) {
+                recObj.steps.push(steps[j].description);
+                console.log('hello');
+              }
+            }
+            output.push(recObj);
+          }
+          res.json(output)
+
+
+        // let recipes = results[0]
+        // let steps = results[1]
+        // for (var i = 0; i < recipes.length; i++) {
+        //    var object = {
+        //      Id
+        //    }
+        // }
+
+
+    })
+    .catch(err => {
+        res.send(err)
+    });
+});
+
 
 // knex.delete
 //
@@ -33,12 +74,12 @@ const knex = require('knex')({
 
 // knex.select('name', 'description').from('recipes').then( recipes => console.log(recipes[0].name));
 
-knex.select('recipes.name', 'steps.description')
-    .from('recipes')
-    .join('steps', 'steps.rec_id', 'recipes.id')
-    .then(function(rows) {
-        console.log(rows[0])
-    });
+// knex.select('recipes.name', 'steps.description')
+//     .from('recipes')
+//     .join('steps', 'steps.rec_id', 'recipes.id')
+//     .then(function(rows) {
+//         console.log(rows[0])
+//     });
 
 
 app.listen(8080, () => {
