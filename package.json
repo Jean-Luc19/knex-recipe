@@ -1,0 +1,28 @@
+{
+  "name": "knex-recipe",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jean-Luc19/knex-recipe.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.16.1",
+    "express": "^4.14.1",
+    "faker": "^4.1.0",
+    "knex": "^0.12.7",
+    "mongoose": "^4.8.5",
+    "pg": "^6.1.2"
+  },
+  "bugs": {
+    "url": "https://github.com/Jean-Luc19/knex-recipe/issues"
+  },
+  "homepage": "https://github.com/Jean-Luc19/knex-recipe#readme"
+}
